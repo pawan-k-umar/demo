@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 
 function App() {
-  // const [details, setDetails] = useState();
+  const [details, setDetails] = useState();
 
   const [name, setName] = useState("");
   // const [tem, setTemp] = useState('0');
@@ -33,7 +33,7 @@ function App() {
     "&q=" +
     cityName +
     "&days=1&aqi=no&alerts=no";
-  fetch(url)
+    fetch(url)
     .then((response) => response.json())
     .then((result) => {
       // console.log(result);
@@ -64,34 +64,27 @@ function App() {
     setCityName(name);
   }
 
-  // function getLocation() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(getPosition);
-  //   }
-  // }
+  // setCityName(details.data[0].name);
 
-  // function getPosition(position) {
-  //   // const locAPI = 'https://api.opencagedata.com/geocode/v1/json?q='+position.coords.latitude+'+'+position.coords.longitude+'&key=4096b400c4e4494681540cf736b4b4a1';
+  function getLocation(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(success)
+    }
+  }
 
-  //   fetch(
-  //     "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-  //       position.coords.latitude +
-  //       "," +
-  //       position.coords.longitude +
-  //       "&key=AIzaSyDNd1taZqXE69LE2eS0zn222ccg3uIjl48"
-  //   )
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       // show.innerHTML=data.results[0].components.state_district;
-  //     });
-  // }
+  function success(position){
+      fetch('http://api.positionstack.com/v1/reverse?access_key=d1e9bcde2fd7213738cef1e05a8908c5&query='+position.coords.latitude+','+position.coords.longitude+'')
+      .then((response)=>{return response.json()})
+      .then((data)=>{
+        // setDetails(data); 
+        // // setCityName(da?)
+        setCityName(data.data[0].name);           
+      })
+  }
 
   return (
     <>
-      <div className="App container">
+      <div className="App container" onLoad={getLocation}>
         <h1 className="logo text-danger"> Weather App </h1>{" "}
         <div>
           <input
