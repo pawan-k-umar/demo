@@ -111,7 +111,7 @@
   box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.1);
 }
 .footer p{
-  margin-top: -12px;
+  margin-top: -8px;
 }
 
 @media screen and (max-width: 680px) {
@@ -131,14 +131,18 @@
   }
 #inputId{
   margin-top: 20px;
-  width: 65%;
+  width: 70%;
 }
   #searchbtn{
     padding: 8px;
     border-radius: 40px;
   }
   .footer{
-    height: 55px;
+    
+    /* height: 0px; */
     width: 100%;
+  }
+  .footer p{
+    margin-top: -8px;
   }
 }

@@ -156,7 +156,7 @@ function App() {
       <div className="footer container p-3 text-light">
         <p className="text-center">
           copyrights <span>&copy;</span>2021
-          <span>created by Pawan Kumar</span>
+          <span> created by Pawan Kumar</span>
         </p>
       </div>
     </>
