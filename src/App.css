@@ -5,19 +5,31 @@
   margin: auto;
   height: auto;
   box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.1);
-  background-color: rgb(233, 233, 233);
+  background-color: #212e30;
+  color: rgb(204, 197, 197);
 }
 
 .logo{
   text-transform: uppercase;
+  background-color: #405b5f;
+  padding: 20px;
+  margin: 10px;
+  width: 50%;
+  text-align: center;
+  margin-left: 25%;
+  border-radius: 100px;
+  box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.1);
 }
 #inputId{
   width: 60%;
   height: 40px;
-  background-color: var(--white);
+  background-color: #35494d;
   border: none;
   box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  padding: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  color: rgb(204, 197, 197);
 }
 #inputId:focus{
   outline: none;
@@ -28,22 +40,32 @@
   justify-content: space-around;
 }
 #searchbtn{
-  width: 60px;
-  height: 40px;
+  /* width: 60px; */
+  /* height: 40px; */
   padding: 10px;
   margin: 0px 10px;
   box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.1);
   border: none;
   cursor: pointer;
-  background-color: var(--white);
+  color: rgb(204, 197, 197);
+  background-color: #35494d;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
-
+#searchbtn:hover{
+  background-color:rgb(204, 197, 197);
+  color: #35494d;
+}
 #details{
   /* height: 100vh; */
-  flex: 1;
+  /* flex: 1; */
+  width: 80%;
+  border: 1px solid rgb(204, 197, 197) ;
   padding: 50px 20px;
   border-radius: 20px;
   margin-bottom: 20px;
+  background-color: #35494d;
+  box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.1);
   /* background-color: #fff; */
 }
 #cityName{
@@ -67,9 +89,9 @@
 #left p{
   padding: 25px;
   font-size: 20px;
-  border-bottom: 1px dotted black;
-  border-bottom-right-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-bottom: 2px dotted rgb(204, 197, 197);
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 .err{
   font-size:20px;
@@ -85,6 +107,8 @@
   height: 40px;
   width: 75%;
   margin: auto;
+  color: antiquewhite;
+  background-color: #383c3d;
   box-shadow: 0px 10px 13px rgba(0, 0, 0, 0.1);
 }
 .footer p{
@@ -99,6 +123,10 @@
     display: inline-block;
   }
   #details{
-    order: 3;
+    width: 100%;
+  }
+  .footer{
+    height: 80%;
+    width: 100%;
   }
 }

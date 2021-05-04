@@ -1,60 +1,81 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 
 function App() {
-  const [details, setDetails] = useState();
+  // const [details, setDetails] = useState();
 
   const [name, setName] = useState("");
-  // const [tem, setTemp] = useState('0');
-  // const [condi, setcondi] = useState('');
-  // const [iconUrl, setIconUrl] = useState();
   const [cityName, setCityName] = useState("london");
-  // const [humidity, sethumidity] = useState();
-  // const [speed, setSpeed] = useState();
-  // const [minTemp, setMinTemp] = useState();
-  // const [maxTemp, setMaxTemp] = useState();
-  // const [sunset, setSunset] = useState();
-  // const [sunrise, setSunrise] = useState();
-  const [err, setErr] = useState();
-  // const[lastUpdated,setLatUpdated] = useState();
-  // const[time,setTime] = useState();
-  // const [countryName, setcountryName]=useState();
-  // const [region, setRegion]=useState();
-
+  // const [err, setErr] = useState();
   const [data, setData] = useState();
 
-  // const APIKEY = '5d3e1ba6775c5a97031d5f4705beeaad';
-  const APIKEY = "32fc58c655934bc59ac60022210205";
-  // const url = 'https://api.openweathermap.org/data/2.5/weather?q='+cityName+'&units=metric&APPID='+APIKEY+'';
-  const url =
-    "https://api.weatherapi.com/v1/forecast.json?key=" +
-    APIKEY +
-    "&q=" +
-    cityName +
-    "&days=1&aqi=no&alerts=no";
-    fetch(url)
-    .then((response) => response.json())
-    .then((result) => {
-      // console.log(result);
-      // sethumidity(data.current.humidity)
-      // setTemp(data.current.temp_c)
-      // setSpeed(data.current.wind_kph)
-      // setcondi(data.current.condition.text)
-      // setIconUrl(data.current.condition.icon)
-      // setLatUpdated(data.current.last_updated)
-      // setSunrise(data.forecast.forecastday[0].astro.sunrise)
-      // setSunset(data.forecast.forecastday[0].astro.sunset)
-      // setMinTemp(data.forecast.forecastday[0].day.mintemp_c)
-      // setMaxTemp(data.forecast.forecastday[0].day.maxtemp_c)
-      // setTime(data.location.localtime)
-      // setcountryName(data.location.country)
-      // setRegion(data.location.region)
-      setData(result);
-    })
-    .catch((err) => {
-      setErr(err.message);
-    });
+
+  useEffect(() => {
+    const fetchApi = async()=>{
+          const APIKEY = '5d3e1ba6775c5a97031d5f4705beeaad';
+          const url = 'https://api.openweathermap.org/data/2.5/weather?q='+cityName+'&units=metric&APPID='+APIKEY+'';
+          const response = await fetch(url);
+          const data = await response.json();
+          setData(data);
+    }
+   fetchApi();
+  },[cityName])
+
+
+  useEffect(() => {
+    function getLocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(success)
+        }
+      }
+      function success(position){
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const fetchCurrentLocation = async()=>{
+              const APIKEY = '5d3e1ba6775c5a97031d5f4705beeaad';
+              const url = 'https://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&appid='+APIKEY+'';
+              const response = await fetch(url);
+              const data = await response.json();
+              // setData(data);
+              setCityName(data.name);
+        }
+        fetchCurrentLocation();
+      }
+        getLocation();
+  },[1])
+
+  // // const APIKEY = '5d3e1ba6775c5a97031d5f4705beeaad';
+  // const APIKEY = "32fc58c655934bc59ac60022210205";
+  // // const url = 'https://api.openweathermap.org/data/2.5/weather?q='+cityName+'&units=metric&APPID='+APIKEY+'';
+  // const url =
+  //   "https://api.weatherapi.com/v1/forecast.json?key=" +
+  //   APIKEY +
+  //   "&q=" +
+  //   cityName +
+  //   "&days=1&aqi=no&alerts=no";
+  //   fetch(url)
+  //   .then((response) => response.json())
+  //   .then((result) => {
+  //     // console.log(result);
+  //     // sethumidity(data.current.humidity)
+  //     // setTemp(data.current.temp_c)
+  //     // setSpeed(data.current.wind_kph)
+  //     // setcondi(data.current.condition.text)
+  //     // setIconUrl(data.current.condition.icon)
+  //     // setLatUpdated(data.current.last_updated)
+  //     // setSunrise(data.forecast.forecastday[0].astro.sunrise)
+  //     // setSunset(data.forecast.forecastday[0].astro.sunset)
+  //     // setMinTemp(data.forecast.forecastday[0].day.mintemp_c)
+  //     // setMaxTemp(data.forecast.forecastday[0].day.maxtemp_c)
+  //     // setTime(data.location.localtime)
+  //     // setcountryName(data.location.country)
+  //     // setRegion(data.location.region)
+  //     setData(result);
+  //   })
+  //   .catch((err) => {
+  //     setErr(err.message);
+  //   });
 
   function getData(val) {
     setName(val.target.value);
@@ -64,89 +85,75 @@ function App() {
     setCityName(name);
   }
 
-  // setCityName(details.data[0].name);
-
-  function getLocation(){
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(success)
-    }
-  }
-
-  function success(position){
-      fetch('http://api.positionstack.com/v1/reverse?access_key=d1e9bcde2fd7213738cef1e05a8908c5&query='+position.coords.latitude+','+position.coords.longitude+'')
-      .then((response)=>{return response.json()})
-      .then((data)=>{
-        // setDetails(data); 
-        // // setCityName(da?)
-        setCityName(data.data[0].name);           
-      })
-  }
 
   return (
     <>
-      <div className="App container" onLoad={getLocation}>
-        <h1 className="logo text-danger"> Weather App </h1>{" "}
+      <div className="App container" >
+        <h1 className="logo"> Weather App </h1>
         <div>
           <input
-            className="text-danger"
             id="inputId"
             type="text"
             placeholder="Enter your city"
             onChange={getData}
-          />{" "}
+          />
           <button onClick={onSubmit} id="searchbtn">
-            {" "}
-            search{" "}
-          </button>{" "}
-          <p className="err text-danger"> {err} </p>{" "}
-        </div>{" "}
-        <div id="main">
+            
+            search
+          </button>
+        </div>
+        {
+          !cityName?
+          <p className='text-danger'>city not found</p>
+        :<div id="main">
           <div id="left">
-            {" "}
+            
             {data && (
-              <Sidebar
-                name1={["Last Updated : "]}
-                props1={data.current.last_updated}
+              <Sidebar className='col-12'
+                name1={["Today : "]}
+                props1={new Date().toJSON().slice(0,10).replace(/-/g,'/')}
                 name2={["Humidity : "]}
-                props2={data.current.humidity}
+                props2={data.main.humidity}
                 name3={["Speed : "]}
-                props3={data.current.wind_kph}
+                props3={data.wind.speed}
                 name4={[" km/h"]}
                 name5={["Sunrise : "]}
-                props4={data.forecast.forecastday[0].astro.sunrise}
+                props4={Date((data.sys.sunrise)*1000)}
               />
-            )}{" "}
-          </div>{" "}
+            )}
+          </div>
           {data && (
-            <div id="details" className="container bg-light col-12 mt-5">
-              <h2 id="cityName"> {cityName} </h2>{" "}
-              <h4> {data.location.country} </h4>{" "}
-              <p className="text-muted"> {data.location.region} </p>{" "}
-              <h1 id="temp"> {Math.floor(data.current.temp_c)} &#176;C</h1>
-              <img id="icon" src={data.current.condition.icon} alt='weather icon' />{" "}
-              <p> {data.current.condition.text} </p>{" "}
+            <div id="details" className="container mt-5">
+              <h2 id="cityName"> {cityName} </h2>
+              <h4> {data.sys.country} </h4>
+              <p className="text-muted"> feels_like : {data.main.feels_like} </p>
+              <h1 id="temp"> {Math.floor(data.main.temp)} &#176;C</h1>
+              <img id="icon" src={'http://openweathermap.org/img/wn/'+data.weather[0].icon+'.png'} alt='weather icon' />
+              <p> {data.weather[0].description} </p>
             </div>
           )}
           <div id="right">
-            {" "}
+            
             {data && (
               <Sidebar
-                name1={["Time : "]}
+                name1={["Pressure : "]}
                 // props1={new Date().toLocaleTimeString()}
-                props1={data.location.localtime}
+                props1={data.main.pressure/1000}
                 name2={["Min : "]}
-                props2={Math.floor(data.forecast.forecastday[0].day.mintemp_c)}
+                name7={[" nPa"]}
+                props2={Math.floor(data.main.temp_min)}
                 unit={" \u00b0C"}
                 name3={["Max : "]}
-                props3={Math.floor(data.forecast.forecastday[0].day.maxtemp_c)}
+                props3={Math.floor(data.main.temp_max)}
                 name6={["Sunset : "]}
-                props5={data.forecast.forecastday[0].astro.sunset}
+                props5={Date((data.sys.sunset))}
               />
             )}
           </div>
         </div>
+        }
       </div>
-      <div className="footer container p-3 bg-dark text-light">
+      <div className="footer container p-3 text-light">
         <p className="text-center">
           copyrights <span>&copy;</span>2021
           <span>created by Pawan Kumar</span>
